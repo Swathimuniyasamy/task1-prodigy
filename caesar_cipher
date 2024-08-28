@@ -1,0 +1,48 @@
+def caesar_cipher(message, shift, mode):
+    result = ""
+    for char in message:
+        if char.isalpha():
+            shift_value = shift % 26
+            if mode == "decrypt":
+                shift_value = -shift_value
+            char_ascii = ord(char)
+            base_char_ascii = ord('a') if char.islower() else ord('A')
+            new_char_ascii = char_ascii + shift_value
+            if char.islower() and new_char_ascii > ord('z'):
+                new_char_ascii -= 26
+            elif char.isupper() and new_char_ascii > ord('Z'):
+                new_char_ascii -= 26
+            elif new_char_ascii < base_char_ascii:
+                new_char_ascii += 26
+            result += chr(new_char_ascii)
+        else:
+            result += char
+    return result
+
+def encrypt_message(message, shift):
+    return caesar_cipher(message, shift, "encrypt")
+
+def decrypt_message(message, shift):
+    return caesar_cipher(message, shift, "decrypt")
+
+def main():
+    print("1. Encrypt Message")
+    print("2. Decrypt Message")
+    print("9. Exit")
+    choice = input("Enter your choice: ")
+
+    if choice == "1":
+        message = input("Enter message to encrypt: ")
+        shift = int(input("Enter shift value: "))
+        print("Encrypted message:", encrypt_message(message, shift))
+    elif choice == "2":
+        message = input("Enter message to decrypt: ")
+        shift = int(input("Enter shift value: "))
+        print("Decrypted message:", decrypt_message(message, shift))
+    elif choice == "9":
+        print("Exiting...")
+    else:
+        print("Invalid choice. Please enter a valid choice.")
+
+if __name__ == "__main__":
+    main()
